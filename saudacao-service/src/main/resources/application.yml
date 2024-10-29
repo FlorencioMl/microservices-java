@@ -4,6 +4,18 @@ spring:
   profiles:
     active:
     - it
+  config:
+    import:
+    - optional:configserver:http://localhost:8888
 saudacao-service:
   saudacao: Hello
   nome-padrao: world
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - '*'
+endpoint:
+    health:
+      show-details: always
