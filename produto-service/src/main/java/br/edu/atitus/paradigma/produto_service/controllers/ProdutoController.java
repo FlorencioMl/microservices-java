@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.atitus.paradigma.produto_service.clients.CambioClient;
+import br.edu.atitus.paradigma.produto_service.clients.CambioResponse;
 import br.edu.atitus.paradigma.produto_service.entities.ProdutoEntity;
 import br.edu.atitus.paradigma.produto_service.repositories.ProdutoRepository;
 
@@ -15,10 +17,12 @@ import br.edu.atitus.paradigma.produto_service.repositories.ProdutoRepository;
 @RequestMapping("produto-service")
 public class ProdutoController {
 	private final ProdutoRepository repository;
+	private final CambioClient client;
 	
-	public ProdutoController(ProdutoRepository repository) {
+	public ProdutoController(ProdutoRepository repository, CambioClient client) {
 		super();
 		this.repository = repository;
+		this.client = client;
 	}
 	@Value("${server.port}")
 	private int porta;
@@ -30,8 +34,10 @@ public class ProdutoController {
 		ProdutoEntity produto = repository.findById(idProduto)
 				.orElseThrow(()-> new Exception("Produto não encontrado"));
 		
+		CambioResponse cambio = client.getCambio(produto.getValor(), "USD", moeda);
 		
-		produto.setAmbiente("Produto-service rodando na porta: " + porta);
+		produto.setValorConvertido(cambio.getValorConvertido());
+		produto.setAmbiente("Produto-service rodando na porta: " + porta + " - " + cambio.getAmbiente());
 		return ResponseEntity.ok(produto);
 	}
  @ExceptionHandler(Exception.class)

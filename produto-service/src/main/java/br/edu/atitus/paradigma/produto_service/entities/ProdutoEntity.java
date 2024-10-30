@@ -74,9 +74,4 @@ public class ProdutoEntity {
 		this.ambiente = ambiente;
 	}
 	
-	
-	
-	
-	
-
 }
