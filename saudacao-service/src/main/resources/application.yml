@@ -1,21 +1,30 @@
 spring:
-  application:
-    name: saudacao-service
-  profiles:
-    active:
-    - it
-  config:
-    import:
-    - optional:configserver:http://localhost:8888
-saudacao-service:
-  saudacao: Hello
-  nome-padrao: world
+    application:
+      name: saudacao-service
+    profiles:
+      active:
+      - es
+    config:
+      import:
+      - optional:configserver:http://localhost:8888
 management:
   endpoints:
     web:
       exposure:
         include:
         - '*'
-endpoint:
+  endpoint:
     health:
       show-details: always
+        
+saudacao-service:
+  saudacao: Hello
+  nome-padrao: Word    
+
+eureka:
+  client:
+    service-url:
+      defaulzone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+ 

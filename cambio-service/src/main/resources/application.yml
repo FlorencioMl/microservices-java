@@ -18,6 +18,11 @@ spring:
   flyway:
     locations:
     - classpath:/db_migration
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=10m
+      
 management:
   endpoints:
     web:
@@ -42,5 +47,5 @@ resilience4j:
         failureRateThreshold: 50
         waitDurationInOpenState: 10s
         permittedNumberOfCallsInHalfOpenState: 3
-        automatic-transition-from-open-to-half-open-enabled: true 
+        automatic-transition-from-open-to-half-open-enabled: true
     
